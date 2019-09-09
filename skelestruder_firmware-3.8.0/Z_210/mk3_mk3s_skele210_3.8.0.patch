@@ -1,6 +1,6 @@
-diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/config.h Prusa_Skele-Firmware-3.8.0/Firmware/config.h
---- Prusa_Stock-Firmware-3.8.0/Firmware/config.h	2019-09-06 13:47:05.000000000 -0400
-+++ Prusa_Skele-Firmware-3.8.0/Firmware/config.h	2019-09-06 15:56:51.356000888 -0400
+diff -Naur stock/Firmware/config.h skele_210/Firmware/config.h
+--- stock/Firmware/config.h	2019-09-06 13:47:05.000000000 -0400
++++ skele_210/Firmware/config.h	2019-09-08 12:02:23.277533539 -0400
 @@ -46,8 +46,8 @@
  #include "Configuration_prusa.h"
  
@@ -12,9 +12,9 @@ diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/config.h Prusa_Skele-Firmware-3.8
  
  #define LANG_SIZE_RESERVED     0x3000 // reserved space for secondary language (10240 bytes)
  
-diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/Marlin_main.cpp Prusa_Skele-Firmware-3.8.0/Firmware/Marlin_main.cpp
---- Prusa_Stock-Firmware-3.8.0/Firmware/Marlin_main.cpp	2019-09-06 13:47:05.000000000 -0400
-+++ Prusa_Skele-Firmware-3.8.0/Firmware/Marlin_main.cpp	2019-09-06 15:53:05.832796029 -0400
+diff -Naur stock/Firmware/Marlin_main.cpp skele_210/Firmware/Marlin_main.cpp
+--- stock/Firmware/Marlin_main.cpp	2019-09-06 13:47:05.000000000 -0400
++++ skele_210/Firmware/Marlin_main.cpp	2019-09-06 15:53:05.832796029 -0400
 @@ -3166,7 +3166,7 @@
  		st_synchronize();
  
@@ -24,15 +24,15 @@ diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/Marlin_main.cpp Prusa_Skele-Firmw
  		plan_buffer_line_curposXYZE(400 / 60, active_extruder); //fast sequence
  		
  		load_filament_final_feed(); //slow sequence
-diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/mmu.cpp Prusa_Skele-Firmware-3.8.0/Firmware/mmu.cpp
---- Prusa_Stock-Firmware-3.8.0/Firmware/mmu.cpp	2019-09-06 13:47:05.000000000 -0400
-+++ Prusa_Skele-Firmware-3.8.0/Firmware/mmu.cpp	2019-09-06 15:53:05.832796029 -0400
+diff -Naur stock/Firmware/mmu.cpp skele_210/Firmware/mmu.cpp
+--- stock/Firmware/mmu.cpp	2019-09-06 13:47:05.000000000 -0400
++++ skele_210/Firmware/mmu.cpp	2019-09-08 20:41:42.796404185 -0400
 @@ -628,7 +628,7 @@
  				{ 
  					printf_P(PSTR("Unloading finished 2\n"));
  					disable_e0(); //turn off E-stepper to prevent overheating and alow filament pull-out if necessary
 -					delay_keep_alive(MMU_LOAD_TIME_MS);
-+                    delay_keep_alive(MMU_LOAD_TIME_MS*10);
++					delay_keep_alive(MMU_LOAD_TIME_MS*10);
  					move = MMU_LOAD_MOVE;
  					get_response_print_info(move);
  				}
@@ -48,21 +48,21 @@ diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/mmu.cpp Prusa_Skele-Firmware-3.8.
      plan_buffer_line_curposXYZE(MMU_LOAD_FEEDRATE, active_extruder);
      st_synchronize();
  
-diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/ultralcd.cpp Prusa_Skele-Firmware-3.8.0/Firmware/ultralcd.cpp
---- Prusa_Stock-Firmware-3.8.0/Firmware/ultralcd.cpp	2019-09-06 13:47:05.000000000 -0400
-+++ Prusa_Skele-Firmware-3.8.0/Firmware/ultralcd.cpp	2019-09-06 15:53:05.836129412 -0400
+diff -Naur stock/Firmware/ultralcd.cpp skele_210/Firmware/ultralcd.cpp
+--- stock/Firmware/ultralcd.cpp	2019-09-06 13:47:05.000000000 -0400
++++ skele_210/Firmware/ultralcd.cpp	2019-09-08 21:08:26.707885441 -0400
 @@ -2031,12 +2031,13 @@
  	  MENU_ITEM_FUNCTION_P(_T(MSG_COOLDOWN), lcd_cooldown);
    } else {
  	  MENU_ITEM_FUNCTION_P(PSTR("PLA  -  " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PLA_PREHEAT_HPB_TEMP)), lcd_preheat_pla);
 -	  MENU_ITEM_FUNCTION_P(PSTR("PET  -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)), lcd_preheat_pet);
-+	  MENU_ITEM_FUNCTION_P(PSTR("PETG  -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)), lcd_preheat_pet);
++	  MENU_ITEM_FUNCTION_P(PSTR("PETG -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)), lcd_preheat_pet);
  	  MENU_ITEM_FUNCTION_P(PSTR("ASA  -  " STRINGIFY(ASA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ASA_PREHEAT_HPB_TEMP)), lcd_preheat_asa);
  	  MENU_ITEM_FUNCTION_P(PSTR("ABS  -  " STRINGIFY(ABS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ABS_PREHEAT_HPB_TEMP)), lcd_preheat_abs);
  	  MENU_ITEM_FUNCTION_P(PSTR("HIPS -  " STRINGIFY(HIPS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(HIPS_PREHEAT_HPB_TEMP)), lcd_preheat_hips);
  	  MENU_ITEM_FUNCTION_P(PSTR("PP   -  " STRINGIFY(PP_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PP_PREHEAT_HPB_TEMP)), lcd_preheat_pp);
  	  MENU_ITEM_FUNCTION_P(PSTR("FLEX -  " STRINGIFY(FLEX_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(FLEX_PREHEAT_HPB_TEMP)), lcd_preheat_flex);
-+      MENU_ITEM_FUNCTION_P(PSTR("NOZZLE -  " STRINGIFY(FARM_PREHEAT_HOTEND_TEMP) "/0"), lcd_preheat_farm_nozzle);
++	  MENU_ITEM_FUNCTION_P(PSTR("Nozzle -  " STRINGIFY(FARM_PREHEAT_HOTEND_TEMP) "/0"), lcd_preheat_farm_nozzle);
  	  if (!wizard_active) MENU_ITEM_FUNCTION_P(_T(MSG_COOLDOWN), lcd_cooldown);
    }
    
@@ -82,9 +82,9 @@ diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/ultralcd.cpp Prusa_Skele-Firmware
  	current_position[E_AXIS] -= 15;
  	plan_buffer_line_curposXYZE(1000 / 60, active_extruder);
  	st_synchronize();
-diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h Prusa_Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
---- Prusa_Stock-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2019-09-06 13:47:05.000000000 -0400
-+++ Prusa_Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2019-09-06 16:51:05.627693513 -0400
+diff -Naur stock/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h skele_210/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
+--- stock/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2019-09-06 13:47:05.000000000 -0400
++++ skele_210/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2019-09-06 16:51:05.627693513 -0400
 @@ -20,7 +20,7 @@
  #define DEVELOPER
  
@@ -140,9 +140,9 @@ diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv
  
  #define MMU_REQUIRED_FW_BUILDNR 83
  #define MMU_HWRESET
-diff -Naur Prusa_Stock-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h Prusa_Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
---- Prusa_Stock-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2019-09-06 13:47:05.000000000 -0400
-+++ Prusa_Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2019-09-06 16:51:19.041210534 -0400
+diff -Naur stock/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h skele_210/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
+--- stock/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2019-09-06 13:47:05.000000000 -0400
++++ skele_210/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2019-09-06 16:51:19.041210534 -0400
 @@ -19,7 +19,7 @@
  #define DEVELOPER
  
