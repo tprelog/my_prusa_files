@@ -1,20 +1,6 @@
-diff -Naur stock/Firmware/config.h skele_220/Firmware/config.h
---- stock/Firmware/config.h	2019-09-06 13:47:05.000000000 -0400
-+++ skele_220/Firmware/config.h	2019-09-06 17:03:18.520585908 -0400
-@@ -46,8 +46,8 @@
- #include "Configuration_prusa.h"
- 
- //LANG - Multi-language support
--//#define LANG_MODE              0 // primary language only
--#define LANG_MODE              1 // sec. language support
-+#define LANG_MODE              0 // primary language only
-+//#define LANG_MODE              1 // sec. language support
- 
- #define LANG_SIZE_RESERVED     0x3000 // reserved space for secondary language (10240 bytes)
- 
-diff -Naur stock/Firmware/Marlin_main.cpp skele_220/Firmware/Marlin_main.cpp
---- stock/Firmware/Marlin_main.cpp	2019-09-06 13:47:05.000000000 -0400
-+++ skele_220/Firmware/Marlin_main.cpp	2019-09-06 17:02:18.436096762 -0400
+diff -Naur Prusa-Firmware-3.8.0/Firmware/Marlin_main.cpp Skele-Firmware-3.8.0/Firmware/Marlin_main.cpp
+--- Prusa-Firmware-3.8.0/Firmware/Marlin_main.cpp	2019-09-06 10:47:04.000000000 -0400
++++ Skele-Firmware-3.8.0/Firmware/Marlin_main.cpp	2020-04-30 20:50:22.181258391 -0400
 @@ -3166,7 +3166,7 @@
  		st_synchronize();
  
@@ -24,9 +10,9 @@ diff -Naur stock/Firmware/Marlin_main.cpp skele_220/Firmware/Marlin_main.cpp
  		plan_buffer_line_curposXYZE(400 / 60, active_extruder); //fast sequence
  		
  		load_filament_final_feed(); //slow sequence
-diff -Naur stock/Firmware/mmu.cpp skele_220/Firmware/mmu.cpp
---- stock/Firmware/mmu.cpp	2019-09-06 13:47:05.000000000 -0400
-+++ skele_220/Firmware/mmu.cpp	2019-09-08 20:42:17.460896031 -0400
+diff -Naur Prusa-Firmware-3.8.0/Firmware/mmu.cpp Skele-Firmware-3.8.0/Firmware/mmu.cpp
+--- Prusa-Firmware-3.8.0/Firmware/mmu.cpp	2019-09-06 10:47:04.000000000 -0400
++++ Skele-Firmware-3.8.0/Firmware/mmu.cpp	2020-04-30 20:50:22.181258391 -0400
 @@ -628,7 +628,7 @@
  				{ 
  					printf_P(PSTR("Unloading finished 2\n"));
@@ -48,9 +34,9 @@ diff -Naur stock/Firmware/mmu.cpp skele_220/Firmware/mmu.cpp
      plan_buffer_line_curposXYZE(MMU_LOAD_FEEDRATE, active_extruder);
      st_synchronize();
  
-diff -Naur stock/Firmware/ultralcd.cpp skele_220/Firmware/ultralcd.cpp
---- stock/Firmware/ultralcd.cpp	2019-09-06 13:47:05.000000000 -0400
-+++ skele_220/Firmware/ultralcd.cpp	2019-09-08 21:07:31.566941495 -0400
+diff -Naur Prusa-Firmware-3.8.0/Firmware/ultralcd.cpp Skele-Firmware-3.8.0/Firmware/ultralcd.cpp
+--- Prusa-Firmware-3.8.0/Firmware/ultralcd.cpp	2019-09-06 10:47:04.000000000 -0400
++++ Skele-Firmware-3.8.0/Firmware/ultralcd.cpp	2020-04-30 20:50:22.181258391 -0400
 @@ -2031,12 +2031,13 @@
  	  MENU_ITEM_FUNCTION_P(_T(MSG_COOLDOWN), lcd_cooldown);
    } else {
@@ -70,7 +56,7 @@ diff -Naur stock/Firmware/ultralcd.cpp skele_220/Firmware/ultralcd.cpp
  
  	//		extr_unload2();
  
-+    current_position[E_AXIS] += 5;
++    current_position[E_AXIS] += 3;
 +    plan_buffer_line_curposXYZE(500 / 60, active_extruder);
 +    st_synchronize();
  	current_position[E_AXIS] -= 45;
@@ -82,9 +68,9 @@ diff -Naur stock/Firmware/ultralcd.cpp skele_220/Firmware/ultralcd.cpp
  	current_position[E_AXIS] -= 15;
  	plan_buffer_line_curposXYZE(1000 / 60, active_extruder);
  	st_synchronize();
-diff -Naur stock/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h skele_220/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
---- stock/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2019-09-06 13:47:05.000000000 -0400
-+++ skele_220/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2019-09-06 17:02:18.436096762 -0400
+diff -Naur Prusa-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
+--- Prusa-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2019-09-06 10:47:04.000000000 -0400
++++ Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2020-04-30 20:50:22.181258391 -0400
 @@ -20,7 +20,7 @@
  #define DEVELOPER
  
@@ -103,15 +89,6 @@ diff -Naur stock/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h skele_220/Fir
  //#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,560}
  
  // Endstop inverting
-@@ -67,7 +67,7 @@
- #define X_MIN_POS 0
- #define Y_MAX_POS 212.5
- #define Y_MIN_POS -4 //orig -4
--#define Z_MAX_POS 210
-+#define Z_MAX_POS 220
- #define Z_MIN_POS 0.15
- 
- // Canceled home position
 @@ -208,7 +208,7 @@
  
  #define TMC2130_USTEPS_XY   16        // microstep resolution for XY axes
@@ -127,8 +104,8 @@ diff -Naur stock/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h skele_220/Fir
  //new settings is possible for vsense = 1, running current value > 31 set vsense to zero and shift both currents by 1 bit right (Z axis only)
 -#define TMC2130_CURRENTS_H {16, 20, 35, 30}  // default holding currents for all axes
 -#define TMC2130_CURRENTS_R {16, 20, 35, 30}  // default running currents for all axes
-+#define TMC2130_CURRENTS_H {20, 20, 35, 26}  // default holding currents for all axes
-+#define TMC2130_CURRENTS_R {20, 20, 35, 26}  // default running currents for all axes
++#define TMC2130_CURRENTS_H {16, 20, 35, 26}  // default holding currents for all axes
++#define TMC2130_CURRENTS_R {16, 20, 35, 26}  // default running currents for all axes
  #define TMC2130_UNLOAD_CURRENT_R 12			 // lowe current for M600 to protect filament sensor 
  
  #define TMC2130_STEALTH_Z
@@ -149,9 +126,9 @@ diff -Naur stock/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h skele_220/Fir
  
  #define MMU_REQUIRED_FW_BUILDNR 83
  #define MMU_HWRESET
-diff -Naur stock/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h skele_220/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
---- stock/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2019-09-06 13:47:05.000000000 -0400
-+++ skele_220/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2019-09-06 17:02:18.436096762 -0400
+diff -Naur Prusa-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
+--- Prusa-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2019-09-06 10:47:04.000000000 -0400
++++ Skele-Firmware-3.8.0/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2020-04-30 20:50:22.181258391 -0400
 @@ -19,7 +19,7 @@
  #define DEVELOPER
  
@@ -170,15 +147,6 @@ diff -Naur stock/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h skele_220/Fi
  //#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,560}
  
  // Endstop inverting
-@@ -69,7 +69,7 @@
- #define X_MIN_POS 0
- #define Y_MAX_POS 212.5
- #define Y_MIN_POS -4 //orig -4
--#define Z_MAX_POS 210
-+#define Z_MAX_POS 220
- #define Z_MIN_POS 0.15
- 
- // Canceled home position
 @@ -210,7 +210,7 @@
  
  #define TMC2130_USTEPS_XY   16        // microstep resolution for XY axes
@@ -194,8 +162,8 @@ diff -Naur stock/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h skele_220/Fi
  //new settings is possible for vsense = 1, running current value > 31 set vsense to zero and shift both currents by 1 bit right (Z axis only)
 -#define TMC2130_CURRENTS_H {16, 20, 35, 30}  // default holding currents for all axes
 -#define TMC2130_CURRENTS_R {16, 20, 35, 30}  // default running currents for all axes
-+#define TMC2130_CURRENTS_H {20, 20, 35, 26}  // default holding currents for all axes
-+#define TMC2130_CURRENTS_R {20, 20, 35, 26}  // default running currents for all axes
++#define TMC2130_CURRENTS_H {16, 20, 35, 26}  // default holding currents for all axes
++#define TMC2130_CURRENTS_R {16, 20, 35, 26}  // default running currents for all axes
  #define TMC2130_UNLOAD_CURRENT_R 12			 // lowe current for M600 to protect filament sensor 
  
  #define TMC2130_STEALTH_Z
