@@ -7,7 +7,7 @@ This repository contains updated patch files, sourced from [JLTX's Skelestruder 
 - Changed printer name to Skelestruder MK3
 - Reverted to stock Prusa Z height - `210`
 
-## Basic steps for using the patching firmware ( 3.8.1 ) on Linux
+## Basic steps for patching the firmware ( 3.8.1 ) on Linux
 ```bash
 # create an empty directory and `cd` into it
 mkdir fw_381
@@ -76,6 +76,7 @@ Edit the corresponding file for your printer
 **Change the Printer Name**
 - Name dispays on the LCD screen
 - Search for `#define CUSTOM_MENDEL_NAME`
+
 ```
 // Printer name
 #define CUSTOM_MENDEL_NAME "SKELESTRUDER MK3S"
@@ -84,6 +85,7 @@ Edit the corresponding file for your printer
 **Change the Max Z Height**
 - JLTX's firmware patch uses `220`
 - Search for `#define Z_MAX_POS`
+
 ```
 // Travel limits after homing
 #define Z_MAX_POS 210
@@ -103,7 +105,8 @@ You can compile the firmware using `./PF-build.sh` - This script optionally take
 
 *Options for `PF-build.sh` were found by reviewing the [source code](https://github.com/prusa3d/Prusa-Firmware/blob/MK3/PF-build.sh#L416)*
 
-*command with output*
+
+*Example build command with output*
 ```
 $ ./PF-build.sh 1_75mm_MK3S-EINSy10a-E3Dv6full.h EN_ONLY GOLD
 
