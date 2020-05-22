@@ -14,7 +14,7 @@ This repository contains updated patch files, sourced from [JLTX's Skelestruder 
 mkdir fw_390
 cd fw_390
 
-# download and extract the source code for prusa firmware 3.8.1
+# download and extract the source code for prusa firmware
 wget -O Prusa-Firmware-3.9.0.zip https://github.com/prusa3d/Prusa-Firmware/archive/v3.9.0.zip
 unzip Prusa-Firmware-3.9.0.zip
 
