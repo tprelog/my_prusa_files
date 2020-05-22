@@ -4,25 +4,26 @@ I'm using [JLTX's Skelestruder](https://www.thingiverse.com/thing:2845416) on my
  
 This repository contains updated patch files, sourced from [JLTX's Skelestruder Supplemental](https://jltxplore.dozuki.com/Wiki/Skelestruder_Information#main) with these additional modifications.
 - Menu change - PET renamed to PETG
+- Includes patch for MMU2
 - Changed printer name to Skelestruder MK3
 - Reverted to stock Prusa Z height - `210`
 
-## Basic steps for patching the firmware ( 3.8.1 ) on Linux
+## Basic steps for patching the firmware ( 3.9.0 ) on Linux
 ```bash
 # create an empty directory and `cd` into it
-mkdir fw_381
-cd fw_381
+mkdir fw_390
+cd fw_390
 
 # download and extract the source code for prusa firmware 3.8.1
-wget -O Prusa-Firmware-3.8.1.zip https://github.com/prusa3d/Prusa-Firmware/archive/v3.8.1.zip
-unzip Prusa-Firmware-3.8.1.zip
+wget -O Prusa-Firmware-3.9.0.zip https://github.com/prusa3d/Prusa-Firmware/archive/v3.9.0.zip
+unzip Prusa-Firmware-3.9.0.zip
 
 # `cd` into unzipped directory and download the skelestrude fw patch
-cd Prusa-Firmware-3.8.1
-wget -O skelestruder-3.8.1.patch https://raw.githubusercontent.com/tprelog/prusa_files/master/fw_patch_files/skelestruder-3.8.1.patch
+cd Prusa-Firmware-3.9.0
+wget -O skelestruder-3.9.0.patch https://raw.githubusercontent.com/tprelog/prusa_files/master/fw_patch_files/skelestruder-3.9.0.patch
 
 # apply the skelestruder patch to the prusa firmware
-patch -p1 < skelestruder-3.8.1.patch
+patch -p1 < skelestruder-3.9.0.patch
 
 # compile skelestruder firmware for prusa mk3s
 ./PF-build.sh 1_75mm_MK3S-EINSy10a-E3Dv6full.h EN_ONLY GOLD
@@ -52,12 +53,12 @@ checking file Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
 
 #### Apply the patch file
 ```bash
-patch -p1 < mk3_mk3s_skelestruder-3.8.1.patch
+patch -p1 < skelestruder-3.8.1.patch
 ```
 
 *command with output*
 ```
-$ patch -p1 < mk3_mk3s_skelestruder-3.8.1.patch
+$ patch -p1 < skelestruder-3.8.1.patch
 
 patching file Firmware/Marlin_main.cpp
 patching file Firmware/mmu.cpp
