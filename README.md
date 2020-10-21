@@ -7,11 +7,13 @@ This repository contains updated patch files, sourced from [JLTX's Skelestruder 
 - Menu change - PET renamed to PETG
 - Includes patch for MMU2
 - Changed printer name to Skelestruder MK3
-- Reverted to stock Prusa Z height - `210`
+- Using stock Prusa Z height - `210`
 
 Patch files can be found in [fw_patch_files](https://github.com/tprelog/prusa_files/tree/master/fw_patch_files)
 
 I've also included a copy of my compiled Skelestruder MK3S Firmware in [skelestruder_fw](https://github.com/tprelog/prusa_files/tree/master/skelestruder_fw)
+
+---
 
 ## Basic steps for patching the firmware ( 3.9.1 ) using Linux
 
@@ -27,21 +29,33 @@ unzip Prusa-Firmware-3.9.1.zip
 # `cd` into unzipped directory and download the skelestrude fw patch
 cd Prusa-Firmware-3.9.1
 wget -O skelestruder-3.9.1.patch https://raw.githubusercontent.com/tprelog/prusa_files/master/fw_patch_files/skelestruder-3.9.1.patch
-
-# apply the skelestruder patch to the prusa firmware
-patch -p1 < skelestruder-3.9.1.patch
-
-# compile skelestruder firmware for prusa mk3s
-./PF-build.sh 1_75mm_MK3S-EINSy10a-E3Dv6full.h EN_ONLY GOLD
-
-# flash firmware using prusa slic3r or octoprint firmware-updater -- profit!
 ```
 
----
+#### *Optional* - Test the patch file
 
-## Notes for Patching Firmware
+```bash
+patch -p1 --dry-run < skelestruder-3.9.1.patch
+```
 
-### *Optional* - Additional Firmware Changes
+*Example - test command with output*
+
+```bash
+$ patch -p1 --dry-run < skelestruder-3.9.1.patch
+
+checking file Firmware/Marlin_main.cpp
+checking file Firmware/mmu.cpp
+checking file Firmware/ultralcd.cpp
+checking file Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
+checking file Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
+```
+
+### Apply the patch file
+
+```bash
+patch -p1 < skelestruder-3.9.1.patch
+```
+
+#### *Optional* - Additional Firmware Changes
 
 Edit the corresponding file for your printer
 
@@ -68,44 +82,6 @@ Change the Max Z Height
 #define Z_MAX_POS 210
 ```
 
----
-
-### Test the patch file
-
-```bash
-patch -p1 --dry-run < skelestruder-3.8.1.patch
-```
-
-*command with output*
-```
-$ patch -p1 --dry-run < skelestruder-3.8.1.patch
-
-checking file Firmware/Marlin_main.cpp
-checking file Firmware/mmu.cpp
-checking file Firmware/ultralcd.cpp
-checking file Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
-checking file Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
-```
-
-### Apply the patch file
-
-```bash
-patch -p1 < skelestruder-3.8.1.patch
-```
-
-*command with output*
-```
-$ patch -p1 < skelestruder-3.8.1.patch
-
-patching file Firmware/Marlin_main.cpp
-patching file Firmware/mmu.cpp
-patching file Firmware/ultralcd.cpp
-patching file Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
-patching file Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
-```
-
----
-
 ### Compile the Firmware
 
 You can compile the firmware using `./PF-build.sh` - This script optionally takes three (3) arguments
@@ -118,13 +94,20 @@ You can compile the firmware using `./PF-build.sh` - This script optionally take
 
 *Options for `PF-build.sh` were found by reviewing the [source code](https://github.com/prusa3d/Prusa-Firmware/blob/MK3/PF-build.sh#L422)*
 
-*Example build command with output*
+Compile skelestruder firmware for the Prusa MK3S
+
+```bash
+./PF-build.sh 1_75mm_MK3S-EINSy10a-E3Dv6full.h EN_ONLY GOLD
 ```
+
+*Example - build command with output*
+
+```bash
 $ ./PF-build.sh 1_75mm_MK3S-EINSy10a-E3Dv6full.h EN_ONLY GOLD
 
 Linux 64-bit found
 
-Script path : /ssd/_prusa_files/src/fw_381/Prusa-Firmware-3.8.1
+Script path : /ssd/_prusa_files/src/fw_391/Prusa-Firmware-3.9.1
 OS          :
 OS type     : linux
 
@@ -135,13 +118,13 @@ Specific Lib: PrusaLibrary
 
 
 Variant    : 1_75mm_MK3S-EINSy10a-E3Dv6full
-Firmware   : 381
+Firmware   : 391
 Build #    : 2869
-Dev Check  : 381
+Dev Check  : 391
 DEV Status : GOLD
 Motherboard: BOARD_EINSY_1_0a
 Languages  : EN_ONLY
-Hex-file Folder: PF-build-hex/FW381-Build2869/BOARD_EINSY_1_0a
+Hex-file Folder: PF-build-hex/FW391-Build2869/BOARD_EINSY_1_0a
 
 
 English only language firmware will be built
