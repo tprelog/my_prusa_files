@@ -15,7 +15,7 @@ I've also included a copy of my compiled Skelestruder MK3S Firmware in [skelestr
 
 ---
 
-## Basic steps for patching the firmware ( 3.10.0 ) using Linux
+## Basic steps for patching the firmware using Linux
 
 ```bash
 # create an empty directory and `cd` into it
