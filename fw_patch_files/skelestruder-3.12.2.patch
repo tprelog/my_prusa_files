@@ -1,7 +1,21 @@
 diff -Nabur Prusa-Firmware-3.12.2/Firmware/Marlin_main.cpp Skele-Firmware-3.12.2/Firmware/Marlin_main.cpp
 --- Prusa-Firmware-3.12.2/Firmware/Marlin_main.cpp	2023-02-27 23:54:56.000000000 -0500
-+++ Skele-Firmware-3.12.2/Firmware/Marlin_main.cpp	2023-03-03 09:46:31.254045370 -0500
-@@ -3684,7 +3684,7 @@
++++ Skele-Firmware-3.12.2/Firmware/Marlin_main.cpp	2023-03-03 16:02:37.596699161 -0500
+@@ -1083,8 +1083,11 @@
+ 
+ static void xflash_err_msg()
+ {
+-    puts_P(_n("XFLASH not responding."));
+-    lcd_show_fullscreen_message_and_wait_P(_n("External SPI flash\nXFLASH is not res-\nponding. Language\nswitch unavailable."));
++    //puts_P(_n("XFLASH not responding."));
++    //lcd_show_fullscreen_message_and_wait_P(_n("External SPI flash\nXFLASH is not res-\nponding. Language\nswitch unavailable."));
++    lcd_clear();
++    lcd_puts_P(_n("External SPI flash\nXFLASH is not res-\nponding. Language\nswitch unavailable."));
++    lcd_wait_for_click_delay(1);
+ }
+ 
+ // "Setup" function is called by the Arduino framework on startup.
+@@ -3684,7 +3687,7 @@
  		fsensor_oq_meassure_start(40);
  #endif //FSENSOR_QUALITY
  
@@ -64,7 +78,7 @@ diff -Nabur Prusa-Firmware-3.12.2/Firmware/ultralcd.cpp Skele-Firmware-3.12.2/Fi
  	st_synchronize();
 diff -Nabur Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
 --- Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2023-02-27 23:54:56.000000000 -0500
-+++ Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2023-03-03 09:44:48.118660703 -0500
++++ Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2023-03-03 16:07:02.255278028 -0500
 @@ -20,7 +20,7 @@
  #define DEVELOPER
  
@@ -104,9 +118,22 @@ diff -Nabur Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6ful
  #define TMC2130_CURRENTS_R_HOME {8, 10, 20, 18}  // homing running currents for all axes
  
  #define TMC2130_STEALTH_Z
+@@ -385,9 +385,9 @@
+ #define FILAMENTCHANGE_FIRSTRETRACT -2
+ #define FILAMENTCHANGE_FINALRETRACT -80
+ 
+-#define FILAMENTCHANGE_FIRSTFEED 70 //E distance in mm for fast filament loading sequence used used in filament change (M600)
+-#define FILAMENTCHANGE_FINALFEED 25 //E distance in mm for slow filament loading sequence used used in filament change (M600) and filament load (M701) 
+-#define FILAMENTCHANGE_RECFEED 5
++#define FILAMENTCHANGE_FIRSTFEED 60 //E distance in mm for fast filament loading sequence used used in filament change (M600)
++#define FILAMENTCHANGE_FINALFEED 30 //E distance in mm for slow filament loading sequence used used in filament change (M600) and filament load (M701)
++#define FILAMENTCHANGE_RECFEED 0
+ 
+ #define FILAMENTCHANGE_XYFEED 50
+ #define FILAMENTCHANGE_EFEED_FIRST 20 // feedrate in mm/s for fast filament loading sequence used in filament change (M600)
 diff -Nabur Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
 --- Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2023-02-27 23:54:56.000000000 -0500
-+++ Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2023-03-03 09:44:48.118660703 -0500
++++ Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2023-03-03 13:35:25.354681262 -0500
 @@ -19,7 +19,7 @@
  #define DEVELOPER
  
@@ -146,3 +173,16 @@ diff -Nabur Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6fu
  #define TMC2130_CURRENTS_R_HOME {8, 10, 20, 18}  // homing running currents for all axes
  
  #define TMC2130_STEALTH_Z
+@@ -389,9 +389,9 @@
+ #define FILAMENTCHANGE_FIRSTRETRACT -2
+ #define FILAMENTCHANGE_FINALRETRACT -80
+ 
+-#define FILAMENTCHANGE_FIRSTFEED 70 //E distance in mm for fast filament loading sequence used used in filament change (M600)
+-#define FILAMENTCHANGE_FINALFEED 25 //E distance in mm for slow filament loading sequence used used in filament change (M600) and filament load (M701) 
+-#define FILAMENTCHANGE_RECFEED 5
++#define FILAMENTCHANGE_FIRSTFEED 60 //E distance in mm for fast filament loading sequence used used in filament change (M600)
++#define FILAMENTCHANGE_FINALFEED 30 //E distance in mm for slow filament loading sequence used used in filament change (M600) and filament load (M701)
++#define FILAMENTCHANGE_RECFEED 0
+ 
+ #define FILAMENTCHANGE_XYFEED 50
+ #define FILAMENTCHANGE_EFEED_FIRST 20 // feedrate in mm/s for fast filament loading sequence used in filament change (M600)
