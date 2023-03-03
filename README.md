@@ -19,16 +19,16 @@ I've also included a copy of my compiled Skelestruder MK3S Firmware in [skelestr
 
 ```bash
 # create an empty directory and `cd` into it
-mkdir fw_3100
-cd fw_3100
+mkdir fw_3122
+cd fw_3122
 
 # download and extract the source code for prusa firmware
-wget -O Prusa-Firmware-3.10.0.zip https://github.com/prusa3d/Prusa-Firmware/archive/v3.10.0.zip
-unzip Prusa-Firmware-3.10.0.zip
+wget -O Prusa-Firmware-3.12.2.zip https://github.com/prusa3d/Prusa-Firmware/archive/v3.12.2.zip
+unzip Prusa-Firmware-3.12.2.zip
 
 # `cd` into unzipped directory and download the skelestrude fw patch
-cd Prusa-Firmware-3.10.0
-wget -O skelestruder-3.10.0.patch https://raw.githubusercontent.com/tprelog/prusa_files/master/fw_patch_files/skelestruder-3.10.0.patch
+cd Prusa-Firmware-3.12.2
+wget -O skelestruder-3.12.2.patch https://raw.githubusercontent.com/tprelog/prusa_files/master/fw_patch_files/skelestruder-3.12.2.patch
 ```
 
 ### *Optional* - Additional Firmware Changes
@@ -67,13 +67,13 @@ Change the Max Z Height
 <details><summary>Click to show</summary>
 
 ```bash
-patch -p1 --dry-run < skelestruder-3.10.0.patch
+patch -p1 --dry-run < skelestruder-3.12.2.patch
 ```
 
 *Example - test command with output*
 
 ```bash
-$ patch -p1 --dry-run < skelestruder-3.10.0.patch
+$ patch -p1 --dry-run < skelestruder-3.12.2.patch
 
 checking file Firmware/Marlin_main.cpp
 checking file Firmware/mmu.cpp
@@ -87,7 +87,7 @@ checking file Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
 ### Apply the patch file
 
 ```bash
-patch -p1 < skelestruder-3.10.0.patch
+patch -p1 < skelestruder-3.12.2.patch
 ```
 
 ### Compile the Firmware
@@ -105,7 +105,7 @@ You can compile the firmware using `./PF-build.sh` - This script optionally some
 Compile skelestruder firmware for the Prusa MK3S
 
 ```bash
-./PF-build.sh -v 1_75mm_MK3S-EINSy10a-E3Dv6full.h -l EN_ONLY -d GOLD
+./PF-build.sh -v 1_75mm_MK3S-EINSy10a-E3Dv6full.h
 ```
 
 *Example - build command with output*

@@ -1,0 +1,148 @@
+diff -Nabur Prusa-Firmware-3.12.2/Firmware/Marlin_main.cpp Skele-Firmware-3.12.2/Firmware/Marlin_main.cpp
+--- Prusa-Firmware-3.12.2/Firmware/Marlin_main.cpp	2023-02-27 23:54:56.000000000 -0500
++++ Skele-Firmware-3.12.2/Firmware/Marlin_main.cpp	2023-03-03 09:46:31.254045370 -0500
+@@ -3684,7 +3684,7 @@
+ 		fsensor_oq_meassure_start(40);
+ #endif //FSENSOR_QUALITY
+ 
+-        const int feed_mm_before_raising = 30;
++        const int feed_mm_before_raising = 20;
+         static_assert(feed_mm_before_raising <= FILAMENTCHANGE_FIRSTFEED);
+ 
+ 		lcd_setstatuspgm(_T(MSG_LOADING_FILAMENT));
+diff -Nabur Prusa-Firmware-3.12.2/Firmware/mmu.cpp Skele-Firmware-3.12.2/Firmware/mmu.cpp
+--- Prusa-Firmware-3.12.2/Firmware/mmu.cpp	2023-02-27 23:54:56.000000000 -0500
++++ Skele-Firmware-3.12.2/Firmware/mmu.cpp	2023-03-03 09:44:48.111993903 -0500
+@@ -649,7 +649,7 @@
+ 				{ 
+ 					puts_P(PSTR("Unloading finished 2"));
+ 					disable_e0(); //turn off E-stepper to prevent overheating and alow filament pull-out if necessary
+-					delay_keep_alive(MMU_LOAD_TIME_MS);
++					delay_keep_alive(MMU_LOAD_TIME_MS*10);
+ 					move = MMU_LOAD_MOVE;
+ 					get_response_print_info(move);
+ 				}
+@@ -1123,9 +1123,9 @@
+ //! @retval false Doesn't fit
+ static bool can_load()
+ {
+-    current_position[E_AXIS] += 60;
++    current_position[E_AXIS] += 50;
+     plan_buffer_line_curposXYZE(MMU_LOAD_FEEDRATE);
+-    current_position[E_AXIS] -= 52;
++    current_position[E_AXIS] -= 42;
+     plan_buffer_line_curposXYZE(MMU_LOAD_FEEDRATE);
+     st_synchronize();
+ 
+diff -Nabur Prusa-Firmware-3.12.2/Firmware/ultralcd.cpp Skele-Firmware-3.12.2/Firmware/ultralcd.cpp
+--- Prusa-Firmware-3.12.2/Firmware/ultralcd.cpp	2023-02-27 23:54:56.000000000 -0500
++++ Skele-Firmware-3.12.2/Firmware/ultralcd.cpp	2023-03-03 09:59:28.931962505 -0500
+@@ -2197,7 +2197,7 @@
+     else
+     {
+         MENU_ITEM_SUBMENU_P(PSTR("PLA  -  " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PLA_PREHEAT_HPB_TEMP)),mFilamentItem_PLA);
+-        MENU_ITEM_SUBMENU_P(PSTR("PET  -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)),mFilamentItem_PET);
++        MENU_ITEM_SUBMENU_P(PSTR("PETG -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)),mFilamentItem_PET);
+         MENU_ITEM_SUBMENU_P(PSTR("ASA  -  " STRINGIFY(ASA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ASA_PREHEAT_HPB_TEMP)),mFilamentItem_ASA);
+         MENU_ITEM_SUBMENU_P(PSTR("PC   -  " STRINGIFY(PC_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PC_PREHEAT_HPB_TEMP)),mFilamentItem_PC);
+         MENU_ITEM_SUBMENU_P(PSTR("PVB  -  " STRINGIFY(PVB_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PVB_PREHEAT_HPB_TEMP)),mFilamentItem_PVB);
+@@ -5322,9 +5322,15 @@
+ 
+ 	//		extr_unload2();
+ 
++	current_position[E_AXIS] += 3;
++	plan_buffer_line_curposXYZE(500 / 60);
++	st_synchronize();
+ 	current_position[E_AXIS] -= 45;
+ 	plan_buffer_line_curposXYZE(5200 / 60);
+ 	st_synchronize();
++	current_position[E_AXIS] += 10;
++	plan_buffer_line_curposXYZE(500 / 60);
++	st_synchronize();
+ 	current_position[E_AXIS] -= 15;
+ 	plan_buffer_line_curposXYZE(1000 / 60);
+ 	st_synchronize();
+diff -Nabur Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h
+--- Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2023-02-27 23:54:56.000000000 -0500
++++ Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3-EINSy10a-E3Dv6full.h	2023-03-03 09:44:48.118660703 -0500
+@@ -20,7 +20,7 @@
+ #define DEVELOPER
+ 
+ // Printer name
+-#define CUSTOM_MENDEL_NAME "Prusa i3 MK3"
++#define CUSTOM_MENDEL_NAME "SKELESTRUDER MK3"
+ 
+ // Electronics
+ #define MOTHERBOARD BOARD_EINSY_1_0a
+@@ -41,7 +41,7 @@
+ 
+ // Steps per unit {X,Y,Z,E}
+ //#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,140}
+-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,280}
++#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,490}
+ //#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,560}
+ 
+ // Endstop inverting
+@@ -220,7 +220,7 @@
+ 
+ #define TMC2130_USTEPS_XY   16        // microstep resolution for XY axes
+ #define TMC2130_USTEPS_Z    16        // microstep resolution for Z axis
+-#define TMC2130_USTEPS_E    32        // microstep resolution for E axis
++#define TMC2130_USTEPS_E    16        // microstep resolution for E axis
+ #define TMC2130_INTPOL_XY   1         // extrapolate 256 for XY axes
+ #define TMC2130_INTPOL_Z    1         // extrapolate 256 for Z axis
+ #define TMC2130_INTPOL_E    1         // extrapolate 256 for E axis
+@@ -282,9 +282,9 @@
+ #define TMC2130_SG_THRS_HOME {3, 3, TMC2130_SG_THRS_Z, TMC2130_SG_THRS_E}
+ 
+ //new settings is possible for vsense = 1, running current value > 31 set vsense to zero and shift both currents by 1 bit right (Z axis only)
+-#define TMC2130_CURRENTS_H {16, 20, 35, 30}  // default holding currents for all axes
++#define TMC2130_CURRENTS_H {16, 20, 35, 26}  // default holding currents for all axes
+ #define TMC2130_CURRENTS_FARM 36             // E 805 mA peak for ECool/farm mode
+-#define TMC2130_CURRENTS_R {16, 20, 35, 30}  // default running currents for all axes
++#define TMC2130_CURRENTS_R {16, 20, 35, 26}  // default running currents for all axes
+ #define TMC2130_CURRENTS_R_HOME {8, 10, 20, 18}  // homing running currents for all axes
+ 
+ #define TMC2130_STEALTH_Z
+diff -Nabur Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h
+--- Prusa-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2023-02-27 23:54:56.000000000 -0500
++++ Skele-Firmware-3.12.2/Firmware/variants/1_75mm_MK3S-EINSy10a-E3Dv6full.h	2023-03-03 09:44:48.118660703 -0500
+@@ -19,7 +19,7 @@
+ #define DEVELOPER
+ 
+ // Printer name
+-#define CUSTOM_MENDEL_NAME "Prusa i3 MK3S"
++#define CUSTOM_MENDEL_NAME "SKELESTRUDER MK3S"
+ 
+ // Electronics
+ #define MOTHERBOARD BOARD_EINSY_1_0a
+@@ -43,7 +43,7 @@
+ 
+ // Steps per unit {X,Y,Z,E}
+ //#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,140}
+-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,280}
++#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,490}
+ //#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,3200/8,560}
+ 
+ // Endstop inverting
+@@ -222,7 +222,7 @@
+ 
+ #define TMC2130_USTEPS_XY   16        // microstep resolution for XY axes
+ #define TMC2130_USTEPS_Z    16        // microstep resolution for Z axis
+-#define TMC2130_USTEPS_E    32        // microstep resolution for E axis
++#define TMC2130_USTEPS_E    16        // microstep resolution for E axis
+ #define TMC2130_INTPOL_XY   1         // extrapolate 256 for XY axes
+ #define TMC2130_INTPOL_Z    1         // extrapolate 256 for Z axis
+ #define TMC2130_INTPOL_E    1         // extrapolate 256 for E axis
+@@ -284,9 +284,9 @@
+ #define TMC2130_SG_THRS_HOME {3, 3, TMC2130_SG_THRS_Z, TMC2130_SG_THRS_E}
+ 
+ //new settings is possible for vsense = 1, running current value > 31 set vsense to zero and shift both currents by 1 bit right (Z axis only)
+-#define TMC2130_CURRENTS_H {16, 20, 35, 30}  // default holding currents for all axes
++#define TMC2130_CURRENTS_H {16, 20, 35, 26}  // default holding currents for all axes
+ #define TMC2130_CURRENTS_FARM 36             // E 805 mA peak for ECool/farm mode
+-#define TMC2130_CURRENTS_R {16, 20, 35, 30}  // default running currents for all axes
++#define TMC2130_CURRENTS_R {16, 20, 35, 26}  // default running currents for all axes
+ #define TMC2130_CURRENTS_R_HOME {8, 10, 20, 18}  // homing running currents for all axes
+ 
+ #define TMC2130_STEALTH_Z
