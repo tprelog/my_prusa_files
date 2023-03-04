@@ -6,7 +6,7 @@ This repository contains updated patch files, sourced from [JLTX's Skelestruder 
 
 - Dismiss [Language switch unavailable](https://github.com/prusa3d/Prusa-Firmware/issues/4024) after 1 second
 - Menu change - PET renamed to PETG
-- Includes [patch for MMU2](https://www.thingiverse.com/thing:3255143) (Found in the settings: here)
+- Includes [patch for MMU2](https://www.thingiverse.com/thing:3255143)
 - Changed printer name to Skelestruder MK3/MK3S
 - Using stock Prusa Z height - `210`
 
