@@ -4,9 +4,10 @@ I'm using [JLTX's Skelestruder](https://www.thingiverse.com/thing:2845416) on my
 
 This repository contains updated patch files, sourced from [JLTX's Skelestruder Supplemental](https://jltxplore.dozuki.com/Wiki/Skelestruder_Information#main) with these additional modifications
 
+- Dismiss [Language switch unavailable](https://github.com/prusa3d/Prusa-Firmware/issues/4024) after 1 second
 - Menu change - PET renamed to PETG
-- Includes patch for MMU2
-- Changed printer name to Skelestruder MK3S
+- Includes [patch for MMU2](https://www.thingiverse.com/thing:3255143) (Found in the settings: here)
+- Changed printer name to Skelestruder MK3/MK3S
 - Using stock Prusa Z height - `210`
 
 Patch files can be found in [fw_patch_files](https://github.com/tprelog/prusa_files/tree/master/fw_patch_files)
@@ -26,7 +27,7 @@ cd fw_3122
 wget -O Prusa-Firmware-3.12.2.zip https://github.com/prusa3d/Prusa-Firmware/archive/v3.12.2.zip
 unzip Prusa-Firmware-3.12.2.zip
 
-# `cd` into unzipped directory and download the skelestrude fw patch
+# `cd` into unzipped directory and download the Skelestruder fw patch
 cd Prusa-Firmware-3.12.2
 wget -O skelestruder-3.12.2.patch https://raw.githubusercontent.com/tprelog/prusa_files/master/fw_patch_files/skelestruder-3.12.2.patch
 ```
@@ -97,7 +98,7 @@ You can compile the firmware using `./PF-build.sh` - This script optionally some
 - First argument defines which variant of the Prusa Firmware will be compiled. Valid options for Skelestruder are
   - Prusa MK3S - `1_75mm_MK3S-EINSy10a-E3Dv6full.h`
   - Prusa MK3 - `1_75mm_MK3-EINSy10a-E3Dv6full.h`
-- Second argument defines if it is an english only version. Known values `EN_ONLY` or `ALL`
+- Second argument defines if it is an english only version. Known values `EN_FARM` or `ALL`
 - Third argument is the DEV_STATUS. Valid options are `GOLD`, `RC`, `BETA`, `ALPHA`, `DEVEL` or `DEBUG`
 
 *Options for `PF-build.sh` were found by reviewing the [source code](https://github.com/prusa3d/Prusa-Firmware/blob/400f673fe0b898d0e3ec8c43fd2011f9320cf20c/PF-build.sh#L456)*
@@ -105,53 +106,70 @@ You can compile the firmware using `./PF-build.sh` - This script optionally some
 Compile skelestruder firmware for the Prusa MK3S
 
 ```bash
-./PF-build.sh -v 1_75mm_MK3S-EINSy10a-E3Dv6full.h
+./PF-build.sh -v 1_75mm_MK3S-EINSy10a-E3Dv6full.h -l EN_FARM -d GOLD
 ```
 
 *Example - build command with output*
 
-```bash
-$ ./PF-build.sh -v 1_75mm_MK3S-EINSy10a-E3Dv6full.h -l EN_ONLY -d GOLD
+```text
+$ ./PF-build.sh -v 1_75mm_MK3S-EINSy10a-E3Dv6full.h -l EN_FARM -d GOLD
 
+Check OS
 Linux 64-bit found
+Check for options
+Prepare build env
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+Current branch is:
+created PF-build.branch file
 
-Script path : /ssd/scr/3.10.0/Skele-Firmware-3.10.0
+Script path : /ssd/3D_Printing/_Printer_Files/fw_scr/fw_3122/Prusa-Firmware-3.12.2
 OS          :
 OS type     : linux
 
-Arduino IDE : 1.8.5
-Build env   : 1.0.6
+Arduino IDE : 1.8.19
+Build env   : 1.0.8
 Board       : prusa_einsy_rambo
 Package name: PrusaResearch
-Board v.    : 1.0.3
+Board v.    : 1.0.6
 Specific Lib: PrusaLibrary
 
 Nothing to clean up
 
-Variant    : 1_75mm_MK3S-EINSy10a-E3Dv6full
-Firmware   : 3100
-Build #    : 4481
-Dev Check  : 3100
-DEV Status : GOLD
-Motherboard: BOARD_EINSY_1_0a
-Languages  : EN_ONLY
-Hex-file Folder: PF-build-hex/FW3100-Build4481/BOARD_EINSY_1_0a
+Printer        : MK3S
+Variant        : 1_75mm_MK3S-EINSy10a-E3Dv6full
+Firmware       : 3122
+Build #        : 5713
+Dev Check      :
+DEV Status     : GOLD
+Motherboard    : BOARD_EINSY_1_0a
+Board flash    :
+Board mem      :
+Languages      : EN_FARM
+Hex-file Folder: PF-build-hex/FW3122-Build5713/BOARD_EINSY_1_0a
+Hex filename   : FW3122-Build5713-1_75mm_MK3S-EINSy10a-E3Dv6full
 
 
 English only language firmware will be built
 
 
+
 Start to build Prusa Firmware ...
 Using variant 1_75mm_MK3S-EINSy10a-E3Dv6full
-Sketch uses 232792 bytes (91%) of program storage space. Maximum is 253952 bytes.
-Global variables use 6120 bytes of dynamic memory.
-
+Sketch uses 232618 bytes (91%) of program storage space. Maximum is 253952 bytes.
+Global variables use 5595 bytes of dynamic memory.
 Copying English only firmware to PF-build-hex folder
-0
+Copying English only elf file to PF-build-hex folder
+1
+Restored Board Flash
 
 
+PF-build.sh finished with success
 Build done, please use Slic3rPE > 1.41.0 to upload the firmware
 more information how to flash firmware https://www.prusa3d.com/drivers/
+
+Files:
+FW3122-Build5713-1_75mm_MK3S-EINSy10a-E3Dv6full-EN_FARM.hex  FW3122-Build5713-1_75mm_MK3S-EINSy10a-E3Dv6full-EN_FARM.elf
 ```
 
 ---
